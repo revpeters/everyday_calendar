@@ -1,5 +1,4 @@
 import DayJS from 'dayjs';
-//import { months } from 'dayjs/locale/*';
 import React from 'react';
 
 
@@ -14,29 +13,39 @@ class Calendar extends React.Component {
         for (let i = 1; i <= parseInt(DayJS().month(month).daysInMonth()); i++) {
           monthArray.push(i);
         }
-        //let monthName = DayJS().month(month).format('MMM').toString()
         calendarYear.push(monthArray)
       }
       return calendarYear
     }
     const testDays = getCalendar([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
 
+    const testYear = testDays.map((days, index) => {
+      const newDay = []
+      days.forEach(e => newDay.push({ id: 1 + Math.random(), date: e }));
+      return (
+        {
+          name: DayJS().month(index).format('MMM').toString(),
+          numDays: [...newDay]
+        }
+      )
+    })
+
     this.state = {
-      fullYear: [...testDays]
+      fullYear: [...testYear]
     }
   }
   render() {
     return (
       <div className="Calendar">
-        {this.state.fullYear.map((month, index) => {
+        {this.state.fullYear.map((month) => {
           return (
             <div>
-              {DayJS().month(index).format('MMM').toString()}
+              {month.name}
               <ul>
-                {month.map(day => {
+                {month.numDays.map(day => {
                   return (
-                    <li key={day + Math.random()}>
-                      {day}
+                    <li key={day.id}>
+                      {day.date}
                     </li>
                   )
                 })}
@@ -51,18 +60,3 @@ class Calendar extends React.Component {
 }
 
 export default Calendar;
-
-/*
-let getCalendar = (months) => {
-  let calendarYear = []
-  for (const month in months) {
-    let monthArray = []
-    for (let i=1; i <= parseInt(DayJS().month(month).daysInMonth()); i++) {
-      monthArray.push(i);
-    }
-    calendarYear.push(monthArray)
-  }
-  return calendarYear
-}
-const testDays = getCalendar([0,1,2,3,4,5,6,7,8,9,10,11])
-console.log(testDays) */
