@@ -6,43 +6,38 @@ class Calendar extends React.Component {
   constructor(props) {
     super(props);
 
-    let getCalendar = (months) => {
-      let calendarYear = []
-      for (const month in months) {
-        let monthArray = []
-        for (let i = 1; i <= parseInt(DayJS().month(month).daysInMonth()); i++) {
-          monthArray.push(i);
-        }
-        calendarYear.push(monthArray)
+    const monthsIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    const calendarScaffold = []
+    monthsIndex.forEach(month => {
+      const monthArray = []
+      for (let i = 1; i <= parseInt(DayJS().month(month).daysInMonth()); i++) {
+        monthArray.push(i);
       }
-      return calendarYear
-    }
-    const testDays = getCalendar([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-
-    const testYear = testDays.map((days, index) => {
-      const newDay = []
-      days.forEach(e => newDay.push({ id: 1 + Math.random(), date: e }));
-      return (
-        {
-          name: DayJS().month(index).format('MMM').toString(),
-          numDays: [...newDay]
-        }
-      )
+      calendarScaffold.push(monthArray);
     })
 
     this.state = {
-      fullYear: [...testYear]
+      calendarYear: calendarScaffold.map((days, index) => {
+        const daysInMonth = []
+        days.forEach(e => daysInMonth.push({ id: 1 + Math.random(), date: e }));
+        return (
+          {
+            name: DayJS().month(index).format('MMM').toString(),
+            days: [...daysInMonth]
+          }
+        )
+      })
     }
   }
   render() {
     return (
       <div className="Calendar">
-        {this.state.fullYear.map((month) => {
+        {this.state.calendarYear.map((month) => {
           return (
             <div>
               {month.name}
               <ul>
-                {month.numDays.map(day => {
+                {month.days.map(day => {
                   return (
                     <li key={day.id}>
                       {day.date}
