@@ -21,6 +21,7 @@ class Calendar extends React.Component {
       textColor: "",
       calendarYear: calendarScaffold.map((days, index) => {
         const daysInMonth = []
+        //add a key: value for the bgcolor of everyday. then set the style background to days.bgColor
         days.forEach(e => daysInMonth.push({ id: 1 + Math.random(), date: e }));
         return (
           {
