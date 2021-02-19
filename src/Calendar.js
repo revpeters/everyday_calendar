@@ -1,6 +1,6 @@
 import DayJS from 'dayjs';
 import React from 'react';
-
+import './css/Calendar.css';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -17,6 +17,8 @@ class Calendar extends React.Component {
     })
 
     this.state = {
+      bgColor: "",
+      textColor: "",
       calendarYear: calendarScaffold.map((days, index) => {
         const daysInMonth = []
         days.forEach(e => daysInMonth.push({ id: 1 + Math.random(), date: e }));
@@ -29,17 +31,28 @@ class Calendar extends React.Component {
       })
     }
   }
+
+  dayClick = () => {
+    this.setState({
+      bgColor: "red"
+    });
+  }
+
   render() {
     return (
       <div className="Calendar">
         {this.state.calendarYear.map((month) => {
           return (
-            <div>
-              {month.name}
+            <div className="Month">
+              <strong>{month.name}</strong>
               <ul>
                 {month.days.map(day => {
                   return (
-                    <li key={day.id}>
+                    <li
+                      key={day.id}
+                      onClick={() => this.dayClick(day.id)}
+                      style={{ backgroundColor: this.state.bgColor }}
+                    >
                       {day.date}
                     </li>
                   )
@@ -48,8 +61,9 @@ class Calendar extends React.Component {
               </ul>
             </div>
           )
-        })}
-      </div>
+        })
+        }
+      </div >
     )
   }
 }
